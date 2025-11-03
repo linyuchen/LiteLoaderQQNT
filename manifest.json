@@ -1,0 +1,8 @@
+{
+  "name": "LiteLoaderQQNT",
+  "version": "1.3.0",
+  "description": "LiteLoaderQQNT",
+  "injects": {
+    "main": "./src/main.js"
+  }
+}
