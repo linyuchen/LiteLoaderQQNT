@@ -16,7 +16,7 @@ LiteLoaderQQNT 是 QQNT 的插件加载器，一般在 QQNT 的环境内简称�
 ## 安装
 
 > [!NOTE]
-> 此版本的 LiteLoaderQQNT 需搭配频道内未公开的 `dbghelp.dll` 方可使用。
+> 此版本的 LiteLoaderQQNT 需搭配 [PMHQ](https://github.com/linyuchen/PMHQ) 方可使用。
 
 ### 下载 LiteLoaderQQNT 本体
 
@@ -28,28 +28,8 @@ LiteLoaderQQNT 是 QQNT 的插件加载器，一般在 QQNT 的环境内简称�
     ```bash
     git clone --depth 1 https://github.com/LiteLoaderQQNT/LiteLoaderQQNT.git
     ```
-
-### 在 Windows 上绕过 QQNT 文件校验
-
-请根据你的操作系统架构在 Telegram 群内下载 `dbghelp_*.dll` 文件，将其重命名为 `dbghelp.dll` 后放入 `QQ.exe` 同级目录下。
-
-### 修改文件以安装
-1. 转到 QQNT 安装目录。以 `9.9.21-38711` 为例，路径为 `QQNT\versions\9.9.21-38711（取决于你的版本）\resources\app`
-
-2. 创建 `app_launcher`目录。
-
-3. 在该目录内创建 `LiteLoader.js` 文件（文件名可随意设定， 需保留拓展名 `.js`），并写入以下内容：
-
-    ```javascript
-    require(String.raw`修改为 LiteLoaderQQNT 本体的绝对路径，保留反引号`)
-    ```
-
-4. 修改 `app\package.json` 文件，将 `main` 后值改为 `./app_launcher/LiteLoader.js`，其中 `LiteLoader` 即为你创建的文件名。
-
-   ```diff
-   -   "main": "./application.asar/app_launcher/index.js",
-   +   "main": "./app_launcher/LiteLoader.js",
-   ```
+  
+- 将 LiteLoaderQQNT 文件夹放入 PMHQ 的 `plugins` 文件夹内
 
 ### 更改插件数据目录 （可选）
 
