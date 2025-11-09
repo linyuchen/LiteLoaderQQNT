@@ -24,19 +24,7 @@ function proxyBrowserWindowConstruct(target, argArray, newTarget) {
             return Reflect.apply(target, thisArg, [channel, ...args]);
         }
     });
-
-    // 加载Preload
-    if (window.webContents.__getPreloadPaths) {
-        window.webContents._getPreloadPaths = new Proxy(window.webContents._getPreloadPaths, {
-            apply(target, thisArg, argArray) {
-                return [
-                    ...Reflect.apply(target, thisArg, argArray),
-                    path.join(LiteLoader.path.root, "src/preload.js")
-                ];
-            }
-        });
-    }
-    else {
+    if (window.webContents._getPreloadScript) {
       const originalGetPreloadScript = window.webContents._getPreloadScript.bind(window.webContents);
       window.webContents._getPreloadScript = function () {
         const originalResult = originalGetPreloadScript();
@@ -46,7 +34,8 @@ function proxyBrowserWindowConstruct(target, argArray, newTarget) {
         }
 
         // 创建包装 preload 文件
-        const wrapperPath = path.join(LiteLoader.path.root, `preload_wrapper.js`);
+        const filename = path.basename(originalResult.filePath, path.extname(originalResult.filePath));
+        const wrapperPath = path.join(LiteLoader.path.root, `preload_wrapper_${filename}.js`);
 
         // 生成包装代码
         let wrapperCode = `// Preload wrapper - auto-generated\nconsole.log('[Wrapper] Loading preloads...');\n\n`;
@@ -85,6 +74,18 @@ function proxyBrowserWindowConstruct(target, argArray, newTarget) {
           filePath: wrapperPath
         };
       };
+    }
+
+    // 加载Preload
+    else {
+        window.webContents._getPreloadPaths = new Proxy(window.webContents._getPreloadPaths, {
+            apply(target, thisArg, argArray) {
+                return [
+                    ...Reflect.apply(target, thisArg, argArray),
+                    path.join(LiteLoader.path.root, "src/preload.js")
+                ];
+            }
+        });
     }
 
     // 加载自定义协议
