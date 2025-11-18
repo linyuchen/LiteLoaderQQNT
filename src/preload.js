@@ -46,5 +46,5 @@ function runPreloadScript(content) {
 /**
  * 加载插件 Preload
  */
-runPreloadScript(readFileRequestSync("local://root/src/liteloader_api/preload.js"));
+runPreloadScript(readFileRequestSync("local://root/src/ll_api/preload.js"));
 runPreloadScript(readFileRequestSync("local://root/src/loader_core/preload.js"));
